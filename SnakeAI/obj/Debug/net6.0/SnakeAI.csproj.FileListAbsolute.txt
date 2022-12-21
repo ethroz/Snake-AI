@@ -1,0 +1,15 @@
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\bin\Debug\net6.0\SnakeAI.exe
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\bin\Debug\net6.0\SnakeAI.deps.json
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\bin\Debug\net6.0\SnakeAI.runtimeconfig.json
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\bin\Debug\net6.0\SnakeAI.dll
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\bin\Debug\net6.0\SnakeAI.pdb
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\obj\Debug\net6.0\SnakeAI.csproj.AssemblyReference.cache
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\obj\Debug\net6.0\SnakeAI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\obj\Debug\net6.0\SnakeAI.AssemblyInfoInputs.cache
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\obj\Debug\net6.0\SnakeAI.AssemblyInfo.cs
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\obj\Debug\net6.0\SnakeAI.csproj.CoreCompileInputs.cache
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\obj\Debug\net6.0\SnakeAI.dll
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\obj\Debug\net6.0\refint\SnakeAI.dll
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\obj\Debug\net6.0\SnakeAI.pdb
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\obj\Debug\net6.0\SnakeAI.genruntimeconfig.cache
+C:\Users\ethro\source\repos\SnakeAI\SnakeAI\obj\Debug\net6.0\ref\SnakeAI.dll
