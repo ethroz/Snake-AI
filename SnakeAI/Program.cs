@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,23 +30,25 @@ static class Program
 
     static void Main()
     {
+        // Change the font.
+        IntPtr hConsoleOutput = ConsoleEx.GetStdHandle(ConsoleEx.STD_OUTPUT_HANDLE);
+        CONSOLE_FONT_INFO_EX cfi = new CONSOLE_FONT_INFO_EX();
+        cfi.cbSize = (uint)Marshal.SizeOf(cfi);
+        cfi.dwFontSize.X = 16; // Width of each character in pixels.
+        cfi.dwFontSize.Y = 16; // Height of each character in pixels.
+        if (!ConsoleEx.SetCurrentConsoleFontEx(hConsoleOutput, false, ref cfi))
+        {
+            Console.WriteLine("Error setting console font.");
+            Console.ReadKey();
+            return;
+        }
+
         if (Train)
         {
-            // Set up the console.
+            // Maximize the console and restrict the console buffer to that size.
             ConsoleEx.Maximize();
-            //Console.BufferWidth = Console.WindowWidth;
-            //Console.BufferHeight = Console.WindowHeight;
-            //for (int i = 0; i < 20; ++i)
-            //{
-            //    ConsoleEx.SetConsoleFont(i);
-            //}
-            //var font = ConsoleEx.CreateTinyFont();
-            //Console.WriteLine(font.cbSize);
-            //Console.WriteLine(font.nFont);
-            //Console.WriteLine(font.dwFontSize.X + " " + font.dwFontSize.Y);
-            //Console.WriteLine(font.FontFamily);
-            //Console.WriteLine(font.FontWeight);
-            //Console.WriteLine(font.FaceName);
+            Console.BufferWidth = Console.WindowWidth;
+            Console.BufferHeight = Console.WindowHeight;
 
             // Create the poulation network.
             for (int j = 0; j < Capacity; ++j)
@@ -89,7 +92,7 @@ static class Program
                 Console.WriteLine("Average Fitness: " + average);
                 Console.WriteLine("Fitness Range: [" + min + ", " + max + "]");
                 Console.WriteLine("Most Apples: " + bestApples);
-                Console.WriteLine("Watch a replay?");
+                Console.WriteLine("Watch a replay? (.,Esc)");
 
                 // Check user input.
                 var input = Console.ReadKey(true).Key;
@@ -106,7 +109,7 @@ static class Program
                     Console.SetCursorPosition(left, top);
                 }
                 else if (input == ConsoleKey.Escape)
-                    break;
+                    return;
 
                 // Create the next generation.
                 NextGeneration();

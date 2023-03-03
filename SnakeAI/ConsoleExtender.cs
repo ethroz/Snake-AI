@@ -3,82 +3,45 @@ using System.Runtime.InteropServices;
 
 namespace System;
 
-public struct Coord
+public struct COORD
 {
-	public short X;
-	public short Y;
-
-    public Coord(short x, short y)
-    {
-        X = x;
-        Y = y;
-    }
+    public short X;
+    public short Y;
 }
 
-[StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
-public unsafe struct ConsoleFont
+[StructLayout(LayoutKind.Sequential)]
+public unsafe struct CONSOLE_FONT_INFO_EX
 {
-	private const int LF_FACESIZE = 32;
-	public ulong cbSize;
-	public uint nFont;
-	public Coord dwFontSize;
-	public uint FontFamily;
-	public uint FontWeight;
-	public fixed char FaceName[LF_FACESIZE];
+    public uint cbSize;
+    public uint nFont;
+    public COORD dwFontSize;
+    public int FontFamily;
+    public int FontWeight;
+    public fixed char FaceName[32];
 }
 
 public static class ConsoleEx
 {
-	private static void PrintLastError()
-    {
-		Console.WriteLine("Error Code: 0x{0:X}", Marshal.GetLastWin32Error());
-	}
+    public const int STD_OUTPUT_HANDLE = -11;
+    public const int SW_MAXIMIZE = 3;
 
-	[DllImport("kernel32", SetLastError = true)]
-	private extern static bool SetCurrentConsoleFontEx(IntPtr hOutput, bool bMaximumWindow, ConsoleFont lpFont);
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern IntPtr GetStdHandle(int nStdHandle);
 
-	[DllImport("kernel32.dll", SetLastError = true)]
-	private static extern int SetConsoleFont(IntPtr hOut, uint fontNum);
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    public static extern bool GetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
 
-	public static void SetConsoleFont(int fontNum)
-    {
-		if (SetConsoleFont(GetStdHandle(StdHandle.OutputHandle), (uint)fontNum) == 0)
-			PrintLastError();
-	}
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern bool SetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
 
-	[DllImport("kernel32", SetLastError = true)]
-	private extern static bool GetCurrentConsoleFontEx(IntPtr hConsoleOutput, bool bMaximumWindow, [Out] ConsoleFont lpFont);
+    [DllImport("kernel32.dll", ExactSpelling = true)]
+    private static extern IntPtr GetConsoleWindow();
 
-	private enum StdHandle : int
+    [DllImport("user32.dll")]
+    private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    public static bool Maximize()
 	{
-		OutputHandle = -11
-	}
-
-	[DllImport("kernel32")]
-	private static extern IntPtr GetStdHandle(StdHandle index);
-
-	public static void SetConsoleFontEx(ConsoleFont font)
-	{
-		if (!SetCurrentConsoleFontEx(GetStdHandle(StdHandle.OutputHandle), false, font))
-			PrintLastError();
-	}
-
-	public static ConsoleFont CreateTinyFont()
-    {
-		ConsoleFont font = new();
-		Console.WriteLine("Handle: " + GetStdHandle(StdHandle.OutputHandle));
-		if (!GetCurrentConsoleFontEx(GetStdHandle(StdHandle.OutputHandle), false, font))
-			PrintLastError();
-		font.dwFontSize = new(1, 1);
-		return font;
-    }
-
-	[DllImport("user32.dll")]
-	private static extern bool ShowWindow(IntPtr hWnd, int cmdShow);
-
-	public static void Maximize()
-	{
-		Process p = Process.GetCurrentProcess();
-		ShowWindow(p.MainWindowHandle, 3); //SW_MAXIMIZE = 3
+		return ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
 	}
 }
