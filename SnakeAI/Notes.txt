@@ -1,0 +1,9 @@
+Inputs: 3 ray casts (distances), 3 classifications (one for each ray)
+Outputs: 3 directions from 1 output
+
+Fitness calculations:
+- Collecting apples is good.
+- Going in circles results should be penalized but not more than dying.
+- For two bots that win, the one that took a shorter amount of time performed
+better.
+- Winning should be worth more than collecting the equivalent number of apples?
