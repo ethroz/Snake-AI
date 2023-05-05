@@ -480,22 +480,41 @@ public class SnakeGame
             if (Apples[i] >= 0)
                 buffer[Apples[i]] = '*';
 
+        // Draw the border to the screen.
+        Console.SetCursorPosition(Offset.x, Offset.y);
+        Console.Write('┌');
+        string horizontal = new('─', Dims.x);
+        Console.Write(horizontal);
+        Console.Write('┐');
+        for (int y = 1; y <= Dims.y; ++y)
+        {
+            Console.SetCursorPosition(Offset.x, Offset.y + y);
+            Console.Write('│');
+            Console.SetCursorPosition(Offset.x + Dims.x + 1, Offset.y + y);
+            Console.Write('│');
+        }
+        Console.SetCursorPosition(Offset.x, Offset.y + Dims.y + 1);
+        Console.Write('└');
+        Console.Write(horizontal);
+        Console.Write('┘');
+
         // Draw each line to the screen.
         fixed (char* pointer = buffer)
         {
             for (int y = 0; y < Dims.y; ++y)
             {
                 string line = new string(pointer, (Dims.y - 1 - y) * Dims.x, Dims.x);
-                Console.SetCursorPosition(Offset.x, Offset.y + y);
+                Console.SetCursorPosition(Offset.x + 1, Offset.y + y + 1);
                 Console.Write(line);
             }
         }
 
+        // Draw a mini scoreboard.
         for (int i = 0; i < Snakes.Length; ++i)
         {
             if (Snakes[i].Alive)
             {
-                Console.SetCursorPosition(Offset.x + Dims.x, Offset.y + i);
+                Console.SetCursorPosition(Offset.x + Dims.x + 2, Offset.y + i);
                 Console.Write("P" + (i + 1) + ": " + Snakes[i].Positions.Count + "   ");
             }
         }
